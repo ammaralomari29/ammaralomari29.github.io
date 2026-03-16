@@ -15,6 +15,16 @@ background:#020617;
 overflow-x:hidden;
 }
 
+.logo-bg{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%, -50%);
+opacity:0.08;
+width:600px;
+z-index:-1;
+}
+
 .stars{
 position:fixed;
 top:0;
@@ -128,8 +138,10 @@ margin-top:50px;
 
 <body>
 
-<div class="stars"></div>
+<img class="logo-bg" src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Yarmouk_University_logo.png">
 
+<div class="stars"></div>
+    
 <header>
 <h2>Ammar Portfolio</h2>
 
