@@ -58,9 +58,10 @@ $("form").onsubmit=async event=>{
  const response=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode,text,context})});
  const data=await response.json();
  if(!response.ok)throw Error(data.error||data.message||"حدث خطأ أثناء التحليل.");
- $("summary").textContent=data.summary||"";
+ const analysis=data.analysis||data;
+ $("summary").textContent=analysis.summary||"";
  $("items").replaceChildren();
- for(const x of data.items||[]){
+ for(const x of analysis.items||[]){
  const box=document.createElement("article");box.className="word";
  const h=document.createElement("h3");h.textContent=x.token||"الكلمة";box.append(h);
  for(const value of [["النوع",x.category],["الموقع الإعرابي",x.syntax],["العلامة",x.case_mark],["الإعراب الكامل",x.full_irab],["الشرح",x.explanation]]){
