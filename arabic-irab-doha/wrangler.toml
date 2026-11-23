@@ -1,0 +1,8 @@
+name = "arabic-irab-doha-api"
+main = "worker.js"
+compatibility_date = "2026-11-24"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGIN = "https://ammaralomari29.github.io"
+OPENAI_MODEL = "gpt-5-mini"
