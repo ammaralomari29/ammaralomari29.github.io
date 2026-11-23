@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>إعراب الكلمات العربية | من إعداد الطالبة ضحى</title>
+<meta name="description" content="إعراب الكلمات العربية والجمل، من إعداد الطالبة ضحى">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{font-family:Cairo,Tahoma,sans-serif;color:#f4f4f2;background:#111d2a}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 75% 0%,#30445c 0%,transparent 42%),#111d2a}main{max-width:840px;margin:auto;padding:25px 17px 65px}header{border-bottom:1px solid #ffffff21;padding:18px 24px;color:#ebc287;font-weight:700}.hero{text-align:center;padding:50px 10px 30px}.hero h1{font:700 clamp(40px,7vw,72px) Amiri,serif;margin:5px 0;color:#f8e4b8}.hero .credit{font-size:20px;font-weight:700;color:#eabd77;margin:2px}.hero p{color:#b6cadc}.card{background:linear-gradient(135deg,#21354b,#172639);border:1px solid #43576a;border-radius:20px;padding:25px;box-shadow:0 20px 60px #0003}h2{margin:0 0 12px;font-size:21px}.modes{display:flex;gap:10px;margin:14px 0 22px;flex-wrap:wrap}button{font:700 14px Cairo,Tahoma,sans-serif;cursor:pointer;border-radius:10px;padding:10px 18px;border:1px solid #66788b;background:#26394c;color:#fff}.modes button.active,.primary{background:#efc27a;color:#2c261c;border-color:#efc27a}label{display:block;font-weight:700;margin:15px 0 8px}textarea{width:100%;min-height:120px;resize:vertical;padding:15px;color:#fff;background:#102035;border:1px solid #596d82;border-radius:12px;font:16px Cairo,Tahoma,sans-serif}textarea:focus{outline:2px solid #eac380}textarea::placeholder{color:#94aabc}.muted{font-size:13px;color:#b4c9db}.buttons{display:flex;gap:12px;align-items:center;margin-top:19px}.primary{min-width:155px}button:disabled{opacity:.6;cursor:wait}.message{margin-top:18px;background:#3a312d;border:1px solid #a18767;color:#f7dfbd;border-radius:12px;padding:12px 14px;display:none}.message.show{display:block}.result{margin-top:20px;display:none}.result.show{display:block}.word{background:#12263a;border:1px solid #3d5368;border-radius:12px;margin:12px 0;padding:16px}.word h3{font:700 28px Amiri;margin:0;color:#eec782}.word p{white-space:pre-wrap;margin:6px 0}.tag{font-size:12px;color:#afc7dd}footer{text-align:center;color:#a4b8c9;font-size:12px;margin:32px 0}footer strong{color:#efc27a}@media(max-width:600px){.card{padding:18px}.hero{padding-top:30px}}
+</style>
+</head>
+<body>
+<header>✦ لغتنا العربية | منصة الإعراب</header>
+<main>
+<section class="hero"><h1>إعراب الكلمات العربية</h1><div class="credit">من إعداد الطالبة ضحى</div><p>اكتب كلمة أو جملة للحصول على إعرابها وشرح علاماتها النحوية</p></section>
+<section class="card">
+<h2>مساعد الإعراب العربي</h2>
+<div class="modes"><button id="word" class="active" type="button">إعراب كلمة</button><button id="sentence" type="button">إعراب جملة كاملة</button></div>
+<form id="form">
+<label for="source" id="label">الكلمة المراد إعرابها</label>
+<textarea required id="source" maxlength="650" placeholder="مثال: الطالب"></textarea>
+<div id="contextArea"><label for="context">الجملة التي وردت فيها الكلمة (اختياري)</label><textarea id="context" maxlength="650" placeholder="مثال: جاءَ الطالبُ إلى المدرسة"></textarea><p class="muted">قد تختلف أوجه إعراب الكلمة الواحدة بحسب موقعها في الجملة.</p></div>
+<div class="buttons"><button class="primary" id="submit" type="submit">أعرب الآن ✦</button><button type="button" id="clear">مسح</button></div>
+<div role="status" aria-live="polite" id="message" class="message"></div>
+</form>
+</section>
+<section class="card result" id="result" aria-live="polite"><h2>نتيجة الإعراب</h2><p id="summary"></p><div id="items"></div></section>
+<p class="muted" style="text-align:center;margin-top:23px">ملاحظة: يعتمد الإعراب الدقيق على السياق، وقد تحتمل بعض الجمل أكثر من وجه.</p>
+<footer>صُنع بحب للغة العربية • <strong>من إعداد الطالبة ضحى</strong></footer>
+</main>
+<script>
+"use strict";
+// Configure the secure backend URL here after deploying the Cloudflare Worker.
+// Never paste any API key into this public file.
+const API_URL = "";
+const $=id=>document.getElementById(id);
+let mode="word";
+function switchMode(next){
+ mode=next;
+ $("word").classList.toggle("active",mode==="word");
+ $("sentence").classList.toggle("active",mode==="sentence");
+ $("contextArea").hidden=mode==="sentence";
+ $("label").textContent=mode==="word"?"الكلمة المراد إعرابها":"الجملة المراد إعرابها كاملة";
+ $("source").placeholder=mode==="word"?"مثال: الطالب":"مثال: ذهب الطالب إلى المدرسة";
+ $("result").classList.remove("show"); $("message").classList.remove("show");
+}
+$("word").onclick=()=>switchMode("word");
+$("sentence").onclick=()=>switchMode("sentence");
+$("clear").onclick=()=>{$("form").reset();$("result").classList.remove("show");$("message").classList.remove("show")};
+function message(text){$("message").textContent=text;$("message").classList.add("show")}
+$("form").onsubmit=async event=>{
+ event.preventDefault();$("message").classList.remove("show");$("result").classList.remove("show");
+ const text=$("source").value.trim(),context=$("context").value.trim();
+ if(!text)return message("اكتب كلمة أو جملة أولًا.");
+ if(!API_URL)return message("الموقع منشور، لكن خدمة الإعراب الذكي لم تُربط بعد. يلزم تفعيل خادم التحليل لإعراب أي كلمة أو جملة.");
+ $("submit").disabled=true;$("submit").textContent="جارٍ التحليل...";
+ try{
+ const response=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode,text,context})});
+ const data=await response.json();
+ if(!response.ok)throw Error(data.error||data.message||"حدث خطأ أثناء التحليل.");
+ $("summary").textContent=data.summary||"";
+ $("items").replaceChildren();
+ for(const x of data.items||[]){
+ const box=document.createElement("article");box.className="word";
+ const h=document.createElement("h3");h.textContent=x.token||"الكلمة";box.append(h);
+ for(const value of [["النوع",x.category],["الموقع الإعرابي",x.syntax],["العلامة",x.case_mark],["الإعراب الكامل",x.full_irab],["الشرح",x.explanation]]){
+ if(!value[1])continue;const p=document.createElement("p");p.textContent=value[0]+": "+value[1];box.append(p);
+ }
+ $("items").append(box);
+ }
+ if(!$("items").children.length)throw Error("لم تصل نتيجة إعراب صالحة.");
+ $("result").classList.add("show");
+ }catch(err){message(err.message||"تعذر الاتصال بخدمة الإعراب.");}
+ finally{$("submit").disabled=false;$("submit").textContent="أعرب الآن ✦";}
+};
+</script>
+</body></html>
