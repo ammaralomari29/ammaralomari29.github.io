@@ -20,11 +20,11 @@ main{max-width:920px;margin:auto;padding:0 20px 56px}.hero{text-align:center;pad
 label{display:block;font-weight:700;margin:13px 0 8px}.input{width:100%;min-height:128px;resize:vertical;border-radius:13px;border:1px solid #65788e;background:#12253a;color:white;padding:15px 16px;line-height:1.9;font-size:16px}.input::placeholder{color:#94a9bc}.input:focus{border-color:var(--gold)}.hint{font-size:12px;line-height:1.8;color:var(--muted);margin:7px 0 0}.word-only[hidden]{display:none}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.action{border:1px solid #72839a;border-radius:10px;background:#263e57;color:var(--ink);padding:10px 16px;font-weight:700}.action.primary{background:var(--gold);border-color:var(--gold);color:#292820;min-width:148px}.action:hover:not(:disabled){filter:brightness(1.08)}.action:disabled{opacity:.66;cursor:wait}
 .message{display:none;margin-top:16px;padding:12px 14px;border:1px solid #9c725f;border-radius:12px;background:#4a302d;color:var(--danger);line-height:1.8}.message.show{display:block}
-.results{display:none;margin-top:18px}.results.show{display:block}.result-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.result-top h2{margin:0}.result-actions{display:flex;gap:8px}.small{padding:7px 11px;font-size:12px}.summary{margin:16px 0 0;padding:15px 16px;border-radius:12px;background:#16293e;border-right:3px solid var(--gold);line-height:2}.ambiguity{margin:12px 0;padding:13px 16px;border:1px solid #846e4d;border-radius:12px;background:#3a342b;color:#f1dcba;line-height:1.8}.ambiguity ul{margin:6px 0 0;padding-right:20px}
+.results{display:none;margin-top:18px}.results.show{display:block}.result-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.result-top h2{margin:0}.result-actions{display:flex;gap:8px}.small{padding:7px 11px;font-size:12px}.summary{margin:16px 0 0;padding:15px 16px;border-radius:12px;background:#16293e;border-right:3px solid var(--gold);line-height:2}.complete-irab{margin:16px 0;padding:16px 18px;border:1px solid #b98e54;border-radius:13px;background:linear-gradient(120deg,#3f382d,#342f29);box-shadow:0 8px 24px #09152233}.complete-irab[hidden]{display:none}.complete-irab strong{display:block;color:var(--gold);margin-bottom:7px}.complete-irab p{margin:0;line-height:2;font-size:16px;color:var(--ivory)}.ambiguity{margin:12px 0;padding:13px 16px;border:1px solid #846e4d;border-radius:12px;background:#3a342b;color:#f1dcba;line-height:1.8}.ambiguity ul{margin:6px 0 0;padding-right:20px}
 .word-card{margin-top:12px;border:1px solid var(--line);border-radius:14px;background:#16293e;overflow:hidden}.word-card summary{cursor:pointer;list-style:none;padding:14px 17px;display:flex;align-items:center;gap:12px}.word-card summary::-webkit-details-marker{display:none}.word-card summary:after{content:"＋";margin-right:auto;color:var(--gold);font-size:18px}.word-card[open] summary:after{content:"−"}.token{font:700 25px Amiri,serif;color:var(--gold)}.token-meta{color:var(--muted);font-size:12px}.word-body{padding:0 17px 16px}.field{padding:9px 0;border-top:1px solid #ffffff12;line-height:1.9}.field strong{color:#e9c990}.field span{white-space:pre-wrap}
 .empty{color:var(--muted);text-align:center;padding:20px}.footnote{font-size:12px;color:var(--muted);line-height:1.9;text-align:center;margin:18px auto 0;max-width:680px}footer{text-align:center;color:#93a7ba;font-size:12px;margin:34px 0 0}footer strong{color:var(--gold)}
 @media(max-width:600px){.hero{padding-top:37px}.panel{padding:18px;border-radius:17px}.panel-head{align-items:flex-start;flex-direction:column;gap:3px}.tabs{gap:5px}.tab{padding:10px 7px;font-size:13px}.result-top{align-items:flex-start;flex-direction:column}.actions .primary{flex:1}.input{min-height:115px}}
-@media print{body{background:#fff;color:#182638}.topbar,.hero,.panel:first-of-type,.footnote,footer,.result-actions{display:none!important}main{max-width:none;padding:0}.results{display:block!important}.summary,.word-card{background:#fff;color:#182638;border-color:#bbc4cc;break-inside:avoid}.token,.field strong{color:#70521e}.token-meta{color:#526274}.word-card summary:after{display:none}.word-card .word-body{display:block!important}.ambiguity{background:#fff9ec;color:#4d3b1e}}
+@media print{body{background:#fff;color:#182638}.topbar,.hero,.panel:first-of-type,.footnote,footer,.result-actions{display:none!important}main{max-width:none;padding:0}.results{display:block!important}.summary,.complete-irab,.word-card{background:#fff;color:#182638;border-color:#bbc4cc;break-inside:avoid}.token,.field strong{color:#70521e}.token-meta{color:#526274}.word-card summary:after{display:none}.word-card .word-body{display:block!important}.ambiguity{background:#fff9ec;color:#4d3b1e}}
 </style>
 </head>
 <body>
@@ -62,6 +62,7 @@ label{display:block;font-weight:700;margin:13px 0 8px}.input{width:100%;min-heig
 <button class="action small" id="copy" type="button">نسخ النتيجة</button>
 <button class="action small" id="print" type="button">طباعة</button>
 </div></div>
+<div class="complete-irab" id="complete-irab" hidden><strong>الإعراب الكامل للكلمة</strong><p id="complete-irab-text"></p></div>
 <div class="summary" id="summary"></div>
 <div class="ambiguity" id="ambiguity" hidden></div>
 <div id="items"></div>
@@ -89,7 +90,7 @@ $("clear").addEventListener("click",()=>{$("form").reset();$("results").classLis
 $("print").addEventListener("click",()=>window.print());
 $("copy").addEventListener("click",async()=>{
  if(!lastAnalysis)return;
- const lines=[lastAnalysis.summary,...(lastAnalysis.ambiguity_notes||[]),...(lastAnalysis.items||[]).map(x=>[x.token,x.full_irab,x.explanation].filter(Boolean).join("\n"))].join("\n\n");
+ const lines=[lastAnalysis.summary,...(lastAnalysis.ambiguity_notes||[]),...(lastAnalysis.items||[]).map(x=>[ "الكلمة: "+x.token, x.full_irab&&"الإعراب الكامل: "+x.full_irab, x.category&&"النوع: "+x.category, x.syntax&&"الموقع الإعرابي: "+x.syntax, x.case_mark&&"العلامة الإعرابية: "+x.case_mark, x.mark_type&&"نوع العلامة: "+x.mark_type, x.explanation&&"التوضيح: "+x.explanation, x.attached_components&&"الضمائر واللواحق: "+x.attached_components ].filter(Boolean).join("\n"))].join("\n\n");
  try{await navigator.clipboard.writeText(lines);$("copy").textContent="تم النسخ";setTimeout(()=>$("copy").textContent="نسخ النتيجة",1600)}catch{$("message").textContent="تعذر النسخ تلقائيًا. حدّد النتيجة وانسخها يدويًا.";$("message").classList.add("show")}
 });
 function showError(text){$("message").textContent=text;$("message").classList.add("show")}
@@ -97,7 +98,7 @@ function addField(parent,label,value){if(!value)return;const row=document.create
 function render(data){
  const a=data.analysis||data;
  if(!a||typeof a.summary!=="string"||!Array.isArray(a.items)||!a.items.length)throw new Error("لم تصل نتيجة إعراب مكتملة. حاول مرة أخرى.");
- lastAnalysis=a;$("summary").textContent=a.summary;
+ lastAnalysis=a;const complete=$("complete-irab");complete.hidden=mode!=="word";$("complete-irab-text").textContent=mode==="word"?(a.items[0].full_irab||"لم يصل الإعراب الكامل للكلمة."):"";$("summary").textContent=a.summary;
  const ambiguity=$("ambiguity");ambiguity.replaceChildren();ambiguity.hidden=!(a.ambiguity_notes||[]).length;
  if(!ambiguity.hidden){const title=document.createElement("strong");title.textContent="تنبيهات حول الاحتمالات";const list=document.createElement("ul");for(const note of a.ambiguity_notes){const li=document.createElement("li");li.textContent=note;list.append(li)}ambiguity.append(title,list)}
  const items=$("items");items.replaceChildren();
@@ -106,7 +107,7 @@ function render(data){
   const details=document.createElement("details");details.className="word-card";details.open=i===0;
   const summary=document.createElement("summary");const token=document.createElement("span");token.className="token";token.textContent=x.token;const meta=document.createElement("span");meta.className="token-meta";meta.textContent=x.category||"تحليل نحوي";summary.append(token,meta);
   const body=document.createElement("div");body.className="word-body";
-  addField(body,"النوع",x.category);addField(body,"الموقع الإعرابي",x.syntax);addField(body,"العلامة الإعرابية",x.case_mark);addField(body,"نوع العلامة",x.mark_type);addField(body,"الإعراب الكامل",x.full_irab);addField(body,"التوضيح",x.explanation);addField(body,"الضمائر واللواحق",x.attached_components);
+  addField(body,"النوع",x.category);addField(body,"الموقع الإعرابي",x.syntax);addField(body,"العلامة الإعرابية",x.case_mark);addField(body,"نوع العلامة",x.mark_type);if(mode!=="word")addField(body,"الإعراب الكامل",x.full_irab);addField(body,"التوضيح",x.explanation);addField(body,"الضمائر واللواحق",x.attached_components);
   details.append(summary,body);items.append(details);
  }
  if(!items.children.length)throw new Error("لم تصل نتيجة إعراب مكتملة. حاول مرة أخرى.");
