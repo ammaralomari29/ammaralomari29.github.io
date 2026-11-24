@@ -4,7 +4,7 @@
 
 ## التشغيل المجاني
 
-يعتمد Worker على Workers AI binding باسم AI ويستخدم النموذج @cf/zai-org/glm-4.7-flash. لا يحتاج إلى OPENAI_API_KEY أو رصيد OpenAI. حصة Cloudflare Workers AI المجانية محدودة يوميًا؛ عند بلوغ الحد على Workers Free تتوقف الطلبات إلى إعادة الضبط ولا يتم فرض رسوم تلقائيًا. راجع لوحة Workers AI للاستهلاك، وتأكد من البقاء على Workers Free.
+يعتمد Worker على Workers AI binding باسم AI ويستخدم النموذج السريع @cf/meta/llama-3.1-8b-instruct-fast مع إخراج JSON منظم. لا يحتاج إلى OPENAI_API_KEY أو رصيد OpenAI. حصة Cloudflare Workers AI المجانية محدودة يوميًا؛ عند بلوغ الحد على Workers Free تتوقف الطلبات إلى إعادة الضبط ولا يتم فرض رسوم تلقائيًا. راجع لوحة Workers AI للاستهلاك، وتأكد من البقاء على Workers Free.
 
 ## الملفات
 
